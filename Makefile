@@ -1,23 +1,39 @@
-.PHONY: init
 init:
-	GO111MODULE=on go mod download
+	GO111MODULE=on \
+	go mod download
 
-.PHONY: build
 build:
-	GO111MODULE=on go build
+	GO111MODULE=on \
+	go build
 
-.PHONY: test
 test:
+	GO111MODULE=on \
 	go test ./...
 
-.PHONY: test-v
 test-v:
+	GO111MODULE=on \
 	go test -v ./...
 
-.PHONY: benchmark
 benchmark:
+	GO111MODULE=on \
 	go test -bench . -benchmem
 
-.PHONY: lint
 lint:
-	GO111MODULE=on golint ./...
+	GO111MODULE=on \
+	golint ./...
+
+generate:
+	GO111MODULE=on \
+	go generate ./...
+
+run:
+	docker-compose -f docker-compose.local.yml up --build client server
+
+stop:
+	docker-compose -f docker-compose.local.yml stop client server
+
+db-run:
+	docker-compose -f docker-compose.local.yml up -d db
+
+db-stop:
+	docker-compose -f docker-compose.local.yml stop db
